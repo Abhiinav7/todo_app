@@ -50,12 +50,10 @@ class _AuthCreateState extends State<AuthCreate> {
         // User? user=f.user;
         // String userid=user!.uid;
         cl.doc(userId).set({"username": name, "email": email});
-if(userId==null){
-  print("server down");
-}
-else{
+if(userId!=null){
   Navigator.push(context, MaterialPageRoute(builder: (context) => MyHome(),));
 }
+
 
 
         return Fluttertoast.showToast(

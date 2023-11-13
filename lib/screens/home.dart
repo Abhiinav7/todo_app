@@ -15,8 +15,9 @@ class _MyHomeState extends State<MyHome> {
         title: Text("ToDo"),
       ),
       body:Container(),
-      floatingActionButton: FloatingActionButton.large(
-        child: Icon(Icons.add),
+      floatingActionButton: FloatingActionButton(
+shape: RoundedRectangleBorder(borderRadius: BorderRadius.vertical(bottom:Radius.circular(21),top: Radius.circular(21))),
+        child: Icon(Icons.add,size: 25,),
           onPressed: (){
           Navigator.push(context, MaterialPageRoute(builder: (context) => TaskPage(),));
           }),

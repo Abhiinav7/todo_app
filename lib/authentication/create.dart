@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import '../screens/home.dart';
 
 class AuthCreate extends StatefulWidget {
   const AuthCreate({super.key});
@@ -25,10 +27,17 @@ class _AuthCreateState extends State<AuthCreate> {
       try {
         final ref = await FirebaseAuth.instance.signInWithEmailAndPassword(
             email: email, password: password);
-        print("///////////login succes//////////");
+        Navigator.push(context, MaterialPageRoute(builder: (context) => MyHome(),));
       }
       on FirebaseAuthException catch (e) {
-        print("/////////error=${e}///////");
+        print("/////////error=${e.code}///////");
+        if(e.code=="INVALID_LOGIN_CREDENTIALS"){
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            action: SnackBarAction(
+                label: "try again", onPressed: (){}),
+            behavior: SnackBarBehavior.floating,
+              content: Text("email or password is incorrect")));
+        }
       }
     }
     else {
@@ -36,10 +45,26 @@ class _AuthCreateState extends State<AuthCreate> {
         final f = await FirebaseAuth.instance
             .createUserWithEmailAndPassword(
             email: email, password: password);
-        print("///////////account created///////////");
-        // String userId = f.user!.uid;
-        // cl.doc(userId)
-        //     .set({"username": name, "email": email});
+
+
+        String userId = f.user!.uid;
+        cl.doc(userId)
+            .set({"username": name, "email": email});
+
+        Navigator.push(context, MaterialPageRoute(builder: (context) => MyHome(),));
+        return Fluttertoast.showToast(
+          msg: "Account create succesfully",
+          toastLength: Toast.LENGTH_SHORT, // Toast duration (SHORT or LONG)
+          gravity: ToastGravity.BOTTOM, // Toast gravity (TOP, CENTER, or BOTTOM)
+          timeInSecForIosWeb: 1, // Duration for iOS and web
+          backgroundColor: Colors.grey, // Background color
+          textColor: Colors.white, // Text color
+          fontSize: 20.0, // Text font size
+
+        );
+
+
+
       } on FirebaseAuthException catch (e) {
         print("/////////////error=${e.code}////////////////////");
       }
@@ -53,7 +78,7 @@ class _AuthCreateState extends State<AuthCreate> {
 
   final _formkey = GlobalKey<FormState>();
   bool isLogin = false;
-  bool isNot = false;
+
 
 
 
@@ -96,28 +121,7 @@ class _AuthCreateState extends State<AuthCreate> {
                                       borderRadius: BorderRadius.circular(12),
                                       borderSide: BorderSide())),
                             ),
-                      isNot? TextFormField(
-                        key: ValueKey("name"),
-                        validator: (value) {
-                          if (value.toString().isEmpty) {
-                            return "Field cannot be empty";
-                          } else if (value.toString().length <= 4) {
-                            return "must contain 5 characters";
-                          }
 
-                          return null;
-                        },
-                        onSaved: (newValue) => _name = newValue!,
-                        decoration: InputDecoration(
-                            hintText: "enter name",
-                            hintStyle: GoogleFonts.roboto(
-                                color: Colors.white, fontSize: 18),
-                            filled: true,
-                            fillColor: Colors.purple,
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(12),
-                                borderSide: BorderSide())),
-                      ):Container(),
                       SizedBox(
                         height: 10,
                       ),
@@ -201,17 +205,9 @@ class _AuthCreateState extends State<AuthCreate> {
                             isLogin = true;
                           });
                         },
-                        child: isLogin
-                            ? GestureDetector(
-                            onTap: (){
-                             setState(() {
-                               isNot=true;
+                        child:isLogin? Text("Dont have an account"):Text("Already have an account")),
 
-                             });
-                            },
-                            child:isNot? Text("Already have an account"): Text("Dont have an account"))
-                            : GestureDetector(child: Text("Already have an account")),
-                      )
+
                     ],
                   )),
             )

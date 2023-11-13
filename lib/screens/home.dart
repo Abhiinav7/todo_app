@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo_app/screens/task_add.dart';
 class MyHome extends StatefulWidget {
   const MyHome({super.key});
 
@@ -13,12 +14,12 @@ class _MyHomeState extends State<MyHome> {
       appBar: AppBar(
         title: Text("ToDo"),
       ),
-      body: Center(
-        child: ElevatedButton(
-          onPressed: () {  },
-          child: Text("hy"),
-        ),
-      ),
+      body:Container(),
+      floatingActionButton: FloatingActionButton.large(
+        child: Icon(Icons.add),
+          onPressed: (){
+          Navigator.push(context, MaterialPageRoute(builder: (context) => TaskPage(),));
+          }),
     );
   }
 }

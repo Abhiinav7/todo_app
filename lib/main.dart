@@ -3,8 +3,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:todo_app/firebase_options.dart';
 import 'package:todo_app/screens/home.dart';
 
-import 'authentication.dart';
-import 'authentication/create.dart';
+
+import 'authentication/authentication_pages.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();

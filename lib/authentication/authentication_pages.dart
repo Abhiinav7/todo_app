@@ -15,56 +15,63 @@ class AuthCreate extends StatefulWidget {
 class _AuthCreateState extends State<AuthCreate> {
   void validate() {
     final validate = _formkey.currentState!.validate();
-    // FocusScope.of(context).unfocus();
+    FocusScope.of(context).unfocus();
     if (validate) {
       _formkey.currentState!.save();
-      Signup(_pass, email1.text, _name);
+      authFunctions(_pass, email1.text, _name);
     }
   }
 
-  Signup(String password, String email,String name) async {
+  authFunctions(String password, String email, String name) async {
     if (isLogin) {
       try {
-        final ref = await FirebaseAuth.instance.signInWithEmailAndPassword(
-            email: email, password: password);
-        Navigator.push(context, MaterialPageRoute(builder: (context) => MyHome(),));
-      }
-      on FirebaseAuthException catch (e) {
+        final ref = await FirebaseAuth.instance
+            .signInWithEmailAndPassword(email: email, password: password);
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => MyHome(),
+            ));
+      } on FirebaseAuthException catch (e) {
         print("/////////error=${e.code}///////");
-        if(e.code=="INVALID_LOGIN_CREDENTIALS"){
+        if (e.code == "INVALID_LOGIN_CREDENTIALS") {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            action: SnackBarAction(
-                label: "try again", onPressed: (){}),
-            behavior: SnackBarBehavior.floating,
+              action: SnackBarAction(label: "try again", onPressed: () {}),
+              behavior: SnackBarBehavior.floating,
               content: Text("email or password is incorrect")));
         }
       }
-    }
-    else {
+    } else {
       try {
         final f = await FirebaseAuth.instance
-            .createUserWithEmailAndPassword(
-            email: email, password: password);
-
+            .createUserWithEmailAndPassword(email: email, password: password);
 
         String userId = f.user!.uid;
-        cl.doc(userId)
-            .set({"username": name, "email": email});
+        // User? user=f.user;
+        // String userid=user!.uid;
+        cl.doc(userId).set({"username": name, "email": email});
+if(userId==null){
+  print("server down");
+}
+else{
+  Navigator.push(context, MaterialPageRoute(builder: (context) => MyHome(),));
+}
 
-        Navigator.push(context, MaterialPageRoute(builder: (context) => MyHome(),));
+
         return Fluttertoast.showToast(
           msg: "Account create succesfully",
-          toastLength: Toast.LENGTH_SHORT, // Toast duration (SHORT or LONG)
-          gravity: ToastGravity.BOTTOM, // Toast gravity (TOP, CENTER, or BOTTOM)
-          timeInSecForIosWeb: 1, // Duration for iOS and web
-          backgroundColor: Colors.grey, // Background color
-          textColor: Colors.white, // Text color
+          toastLength: Toast.LENGTH_SHORT,
+          // Toast duration (SHORT or LONG)
+          gravity: ToastGravity.BOTTOM,
+          // Toast gravity (TOP, CENTER, or BOTTOM)
+          timeInSecForIosWeb: 1,
+          // Duration for iOS and web
+          backgroundColor: Colors.grey,
+          // Background color
+          textColor: Colors.white,
+          // Text color
           fontSize: 20.0, // Text font size
-
         );
-
-
-
       } on FirebaseAuthException catch (e) {
         print("/////////////error=${e.code}////////////////////");
       }
@@ -78,9 +85,6 @@ class _AuthCreateState extends State<AuthCreate> {
 
   final _formkey = GlobalKey<FormState>();
   bool isLogin = false;
-
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -121,7 +125,6 @@ class _AuthCreateState extends State<AuthCreate> {
                                       borderRadius: BorderRadius.circular(12),
                                       borderSide: BorderSide())),
                             ),
-
                       SizedBox(
                         height: 10,
                       ),
@@ -133,8 +136,7 @@ class _AuthCreateState extends State<AuthCreate> {
                             return "Field cannot be empty";
                           } else if (!value.toString().contains("@")) {
                             return "invalid email";
-                          }
-                          else{
+                          } else {
                             return null;
                           }
                         },
@@ -200,14 +202,14 @@ class _AuthCreateState extends State<AuthCreate> {
                         ),
                       ),
                       TextButton(
-                        onPressed: () {
-                          setState(() {
-                            isLogin = true;
-                          });
-                        },
-                        child:isLogin? Text("Dont have an account"):Text("Already have an account")),
-
-
+                          onPressed: () {
+                            setState(() {
+                              isLogin = !isLogin;
+                            });
+                          },
+                          child: isLogin
+                              ? Text("Dont have an account")
+                              : Text("Already have an account")),
                     ],
                   )),
             )

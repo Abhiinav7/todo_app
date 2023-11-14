@@ -29,7 +29,8 @@ class _TaskPageState extends State<TaskPage> {
           .set({
         "title": titlecontroller.text,
         "description": textEditingController.text,
-        "time": time.toString()
+        "time": time.toString(),
+        "timestamp":time
       });
       Fluttertoast.showToast(msg: "task saved");
     }

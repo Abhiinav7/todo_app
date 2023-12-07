@@ -1,7 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:todo_app/services/database_services.dart';
 
 class TaskPage extends StatefulWidget {
   const TaskPage({super.key});
@@ -12,33 +10,8 @@ class TaskPage extends StatefulWidget {
 
 class _TaskPageState extends State<TaskPage> {
   TextEditingController titlecontroller = TextEditingController();
-  TextEditingController textEditingController = TextEditingController();
-
-  addTaskToFirebase() async {
-    try{
-      FirebaseAuth auth = FirebaseAuth.instance;
-      final user = await auth.currentUser!;
-      //final user=await FirebaseAuth.instance.currentUser;
-      String userId = user.uid;
-      var time = DateTime.now();
-      await FirebaseFirestore.instance
-          .collection("tasks")
-          .doc(userId)
-          .collection("mytasks")
-          .doc(time.toString())
-          .set({
-        "title": titlecontroller.text,
-        "description": textEditingController.text,
-        "time": time.toString(),
-        "timestamp":time
-      });
-      Fluttertoast.showToast(msg: "task saved");
-    }
-    catch(error){
-      print("//////////////////error=${error}//////////////////////");
-    }
-
-  }
+  TextEditingController description = TextEditingController();
+  FirebaseServices services = FirebaseServices();
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +34,7 @@ class _TaskPageState extends State<TaskPage> {
               height: 15,
             ),
             TextField(
-              controller: textEditingController,
+              controller: description,
               decoration: InputDecoration(
                 hintText: "What to do !",
                 hintStyle: TextStyle(color: Colors.purple, fontSize: 17),
@@ -76,7 +49,9 @@ class _TaskPageState extends State<TaskPage> {
               width: double.infinity,
               child: ElevatedButton(
                   onPressed: () {
-                    addTaskToFirebase();
+                    services.addTaskToFirebase(
+                        titlecontroller.text, description.text);
+                    Navigator.pop(context);
                   },
                   child: Text(
                     "Add task",

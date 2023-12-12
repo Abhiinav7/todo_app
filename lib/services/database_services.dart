@@ -13,7 +13,7 @@ class FirebaseServices {
     String userId = auth.currentUser!.uid;
     if (userId != null) {
       collectionReference.doc(userId).set({"username": name, "email": email});
-      Navigator.of(context).pushReplacementNamed("/view");
+      Navigator.pushReplacementNamed(context, "/view");
       return Fluttertoast.showToast(
           msg: "Account create succesfully",
           toastLength: Toast.LENGTH_SHORT,

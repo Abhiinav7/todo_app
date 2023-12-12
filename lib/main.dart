@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
        primaryColor: Colors.deepPurple,
         primarySwatch: Colors.deepPurple,
       ),
-      home: const SignupPage(),
+      //home: const SignupPage(),
       routes: {
         "/login":(context) =>LoginPage(),
         "/create":(context) =>SignupPage(),

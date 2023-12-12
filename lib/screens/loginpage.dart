@@ -120,7 +120,7 @@ class _LoginPageState extends State<LoginPage> {
                       ShimmerEffects(
                         child: TextButton(
                           onPressed: () {
-                            Navigator.pushNamed(context, "/create");
+                            Navigator.pushReplacementNamed(context, "/create");
                           },
                           child: Text(
                             "Dont have an account!",

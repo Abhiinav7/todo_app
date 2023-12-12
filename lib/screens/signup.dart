@@ -142,7 +142,7 @@ class _SignupPageState extends State<SignupPage> {
                       ShimmerEffects(
                         child: TextButton(
                           onPressed: () {
-                            Navigator.pushNamed(context, "/login");
+                            Navigator.pushReplacementNamed(context, "/login");
                           },
                           child: Text(
                             "Already have an account!",

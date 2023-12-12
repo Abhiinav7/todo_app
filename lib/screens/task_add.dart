@@ -49,9 +49,12 @@ class _TaskPageState extends State<TaskPage> {
               width: double.infinity,
               child: ElevatedButton(
                   onPressed: () {
-                    services.addTaskToFirebase(
-                        titlecontroller.text, description.text);
-                    Navigator.pop(context);
+                    if (titlecontroller.text.isNotEmpty &&
+                        description.text.isNotEmpty) {
+                      services.addTaskToFirebase(
+                          titlecontroller.text, description.text);
+                      Navigator.pop(context);
+                    }
                   },
                   child: Text(
                     "Add task",

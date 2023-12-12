@@ -20,20 +20,16 @@ class MyTextfield extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      style: TextStyle(color: Colors.white),
       obscureText:obscuretext ,
       keyboardType: keyboardType,
       controller: controller,
       validator: validator,
       decoration: InputDecoration(
+
           hintText: hintext,
           hintStyle: GoogleFonts.roboto(color: Colors.white, fontSize: 18),
           border: InputBorder.none
-          // enabledBorder: OutlineInputBorder(
-          //     borderRadius: BorderRadius.circular(8),
-          //     borderSide: BorderSide(color: Colors.white, width: 2)),
-          // focusedBorder: OutlineInputBorder(
-          //     borderRadius: BorderRadius.circular(10),
-          //     borderSide: BorderSide(color: Colors.white, width: 2)),
             )
     );
   }

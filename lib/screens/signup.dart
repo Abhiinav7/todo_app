@@ -61,7 +61,7 @@ class _SignupPageState extends State<SignupPage> {
                           controller: name,
                           validator: (value) {
                             if (value.toString().isEmpty) {
-                              return "Field cannot be empty";
+                              return "Field is Empty";
                             } else if (value.toString().length <= 4) {
                               return "must contain 5 characters";
                             }
@@ -81,7 +81,7 @@ class _SignupPageState extends State<SignupPage> {
                           controller: email,
                           validator: (value) {
                             if (value.toString().isEmpty) {
-                              return "Field cannot be empty";
+                              return "Field is Empty";
                             } else if (!value.toString().contains("@")) {
                               return "invalid email";
                             } else {
@@ -102,7 +102,7 @@ class _SignupPageState extends State<SignupPage> {
                             controller: pass,
                             validator: (value) {
                               if (value.toString().isEmpty) {
-                                return "Field cannot be empty";
+                                return "Field is Empty";
                               } else if (value.toString().length <= 5) {
                                 return "weak password";
                               }

@@ -59,7 +59,7 @@ class _LoginPageState extends State<LoginPage> {
                           controller: email,
                           validator: (value) {
                             if (value.toString().isEmpty) {
-                              return "Field cannot be empty";
+                              return "Field is Empty";
                             } else if (!value.toString().contains("@")) {
                               return "invalid email";
                             } else {
@@ -80,7 +80,7 @@ class _LoginPageState extends State<LoginPage> {
                             controller: pass,
                             validator: (value) {
                               if (value.toString().isEmpty) {
-                                return "Field is empty";
+                                return "Field is Empty";
                               } else if (value.toString().length <= 5) {
                                 return "weak password";
                               }
